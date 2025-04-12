@@ -37,22 +37,23 @@
 # permissions:
 #   contents: write
 
-name: Deploy to GitHub Pages
+
+name: Auto-Build and Deploy
 
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:
+    paths:
+      - 'github_pages_speak_and_translate/lib/**'  # Only trigger on changes to lib folder
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./github_pages_speak_and_translate
-
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -60,22 +61,19 @@ jobs:
           flutter-version: '3.29.2'
           channel: 'stable'
       
-      - name: Install dependencies
-        run: flutter pub get
-        
       - name: Enable web
         run: flutter config --enable-web
-        
-      - name: Build web
+      
+      - name: Build Flutter web app
+        working-directory: ./github_pages_speak_and_translate
         run: flutter build web --release --base-href "/speak_and_translate_app/"
-        
-      - name: Deploy
+      
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./github_pages_speak_and_translate/build/web
           force_orphan: true
-
+          
 permissions:
   contents: write

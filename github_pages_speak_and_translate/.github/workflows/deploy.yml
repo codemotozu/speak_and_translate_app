@@ -44,7 +44,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - 'github_pages_speak_and_translate/lib/**'  # Only trigger on changes to lib folder
+      - 'github_pages_speak_and_translate/lib/**'  # Only trigger on changes to lib folder.
   workflow_dispatch:  # Allow manual trigger
 
 jobs:

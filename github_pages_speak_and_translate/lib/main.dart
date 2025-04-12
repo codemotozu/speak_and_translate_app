@@ -153,7 +153,7 @@ class HeroSection extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Breaking language barriers with AI-powered voice translation ...',
+              'Breaking language barriers with AI-powered voice translation',
               style: GoogleFonts.inter(fontSize: 24, color: Colors.white),
               textAlign: TextAlign.center,
             ),

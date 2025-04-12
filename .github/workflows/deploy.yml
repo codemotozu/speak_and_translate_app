@@ -38,22 +38,23 @@
 # permissions:
 #   contents: write
 
-name: Auto-Build and Update Root Files
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches: ["main"]
-    paths:
-      - 'github_pages_speak_and_translate/lib/**'  # Only trigger on changes to lib folder
-  workflow_dispatch:  # Allow manual trigger
+  pull_request:
+    branches: ["main"]
 
 jobs:
-  build-and-update:
+  build:
     runs-on: ubuntu-latest
-    
+    defaults:
+      run:
+        working-directory: ./github_pages_speak_and_translate  # Updated working directory
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -61,34 +62,18 @@ jobs:
           flutter-version: '3.29.2'
           channel: 'stable'
       
-      - name: Enable web
-        run: flutter config --enable-web
-      
-      - name: Build Flutter web app
-        working-directory: ./github_pages_speak_and_translate
-        run: flutter build web --release --base-href "/speak_and_translate_app/"
-      
-      - name: Copy built files to repository root
-        run: |
-          # Copy web app files to repository root
-          cp -r ./github_pages_speak_and_translate/build/web/flutter* ./
-          cp -r ./github_pages_speak_and_translate/build/web/assets ./
-          cp -r ./github_pages_speak_and_translate/build/web/canvaskit ./
-          cp -r ./github_pages_speak_and_translate/build/web/icons ./
-          cp ./github_pages_speak_and_translate/build/web/favicon.png ./
-          cp ./github_pages_speak_and_translate/build/web/index.html ./
-          cp ./github_pages_speak_and_translate/build/web/main.dart.js ./
-          cp ./github_pages_speak_and_translate/build/web/manifest.json ./
-          cp ./github_pages_speak_and_translate/build/web/version.json ./
-      
-      - name: Commit and push updated files
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add .
-          # Only commit if there are changes
-          git diff --staged --quiet || git commit -m "Auto-update web build files after lib changes"
-          git push
-          
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release --base-href "/speak_and_translate_app/"
+        
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./github_pages_speak_and_translate/build/web
+          force_orphan: true
+
 permissions:
   contents: write
+

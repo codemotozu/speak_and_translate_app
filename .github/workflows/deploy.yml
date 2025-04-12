@@ -49,6 +49,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./github_pages_speak_and_translate
 
     steps:
       - uses: actions/checkout@v4
@@ -73,7 +76,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
+          publish_dir: ./github_pages_speak_and_translate/build/web
           force_orphan: true
 
 permissions:

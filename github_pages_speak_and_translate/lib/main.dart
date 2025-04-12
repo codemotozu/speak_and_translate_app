@@ -15,7 +15,7 @@ class SpeakTranslateAIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SpeakTranslateAI',
+      title: 'SpeakAndTranslateAI',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
@@ -750,7 +750,7 @@ class ArchitectureSection extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'How SpeakTranslateAI components work together',
+            'How SpeakAndTranslateAI components work together',
             style: GoogleFonts.inter(fontSize: 20, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -940,7 +940,7 @@ class VideoShowcaseSection extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Watch how SpeakTranslateAI translates languages in real-time',
+            'Watch how SpeakAndTranslateAI translates languages in real-time',
             style: GoogleFonts.inter(fontSize: 20, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -1629,7 +1629,7 @@ class FooterSection extends StatelessWidget {
       color: Colors.black,
       child: Center(
         child: Text(
-          '© 2025 SpeakTranslateAI. All rights reserved.',
+          '© 2025 SpeakAndTranslateAI. All rights reserved.',
           style: GoogleFonts.inter(color: Colors.white70),
         ),
       ),

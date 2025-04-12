@@ -38,7 +38,7 @@
 # permissions:
 #   contents: write
 
-name: Auto-Build and Deploy
+name: Auto-Build and Update Root Files
 
 on:
   push:
@@ -48,7 +48,7 @@ on:
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  build-and-deploy:
+  build-and-update:
     runs-on: ubuntu-latest
     
     steps:
@@ -68,12 +68,27 @@ jobs:
         working-directory: ./github_pages_speak_and_translate
         run: flutter build web --release --base-href "/speak_and_translate_app/"
       
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./github_pages_speak_and_translate/build/web
-          force_orphan: true
+      - name: Copy built files to repository root
+        run: |
+          # Copy web app files to repository root
+          cp -r ./github_pages_speak_and_translate/build/web/flutter* ./
+          cp -r ./github_pages_speak_and_translate/build/web/assets ./
+          cp -r ./github_pages_speak_and_translate/build/web/canvaskit ./
+          cp -r ./github_pages_speak_and_translate/build/web/icons ./
+          cp ./github_pages_speak_and_translate/build/web/favicon.png ./
+          cp ./github_pages_speak_and_translate/build/web/index.html ./
+          cp ./github_pages_speak_and_translate/build/web/main.dart.js ./
+          cp ./github_pages_speak_and_translate/build/web/manifest.json ./
+          cp ./github_pages_speak_and_translate/build/web/version.json ./
+      
+      - name: Commit and push updated files
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          # Only commit if there are changes
+          git diff --staged --quiet || git commit -m "Auto-update web build files after lib changes"
+          git push
           
 permissions:
   contents: write

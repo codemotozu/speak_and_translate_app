@@ -1,18 +1,54 @@
 
+# name: Deploy to GitHub Pages
+
+# on:
+#   push:
+#     branches: ["main"]
+#   pull_request:
+#     branches: ["main"]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./github_pages_speak_and_translate  # Updated, working directory
+
+#     steps:
+#       - uses: actions/checkout@v4
+      
+#       - name: Set up Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.29.2'
+#           channel: 'stable'
+      
+#       - run: flutter config --enable-web
+#       - run: flutter pub get
+#       - run: flutter build web --release --base-href "/speak_and_translate_app/"
+        
+#       - name: Deploy
+#         uses: peaceiris/actions-gh-pages@v3
+#         if: github.ref == 'refs/heads/main'
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./github_pages_speak_and_translate/build/web
+#           force_orphan: true
+
+# permissions:
+#   contents: write
+
+
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./github_pages_speak_and_translate  # Updated, working directory
 
     steps:
       - uses: actions/checkout@v4
@@ -23,16 +59,21 @@ jobs:
           flutter-version: '3.29.2'
           channel: 'stable'
       
-      - run: flutter config --enable-web
-      - run: flutter pub get
-      - run: flutter build web --release --base-href "/speak_and_translate_app/"
+      - name: Install dependencies
+        run: flutter pub get
+        
+      - name: Enable web
+        run: flutter config --enable-web
+        
+      - name: Build web
+        run: flutter build web --release --base-href "/speak_and_translate_app/"
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./github_pages_speak_and_translate/build/web
+          publish_dir: ./build/web
           force_orphan: true
 
 permissions:

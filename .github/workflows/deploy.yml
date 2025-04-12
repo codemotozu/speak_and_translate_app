@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./github_pages_speak_and_translate  # Updated working directory
+        working-directory: ./github_pages_speak_and_translate  # Updated, working directory
 
     steps:
       - uses: actions/checkout@v4

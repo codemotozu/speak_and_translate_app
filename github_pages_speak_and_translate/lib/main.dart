@@ -15,7 +15,7 @@ class SpeakTranslateAIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SpeakAndTranslateAI',
+      title: 'SpeakAndTranslateAI ...',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),

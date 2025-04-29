@@ -15,7 +15,7 @@ class SpeakTranslateAIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SpeakAndTranslateAI ...',
+      title: 'SpeakAndTranslateAI',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
@@ -144,7 +144,7 @@ class HeroSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'SpeakAndTranslateAI ...',
+              'SpeakAndTranslateAI',
               style: GoogleFonts.inter(
                 fontSize: 64,
                 fontWeight: FontWeight.bold,

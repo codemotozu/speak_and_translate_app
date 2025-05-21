@@ -4,7 +4,7 @@ import 'package:github_pages_speak_and_translate/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+//test
 void main() {
   runApp(const SpeakTranslateAIApp());
 }
